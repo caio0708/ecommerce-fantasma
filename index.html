@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cagão Fantasma - Adesivos de Banheiro com Humor</title>
+    <link rel="icon" href="https://via.placeholder.com/32x32.png?text=💩" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <header>
+        <div class="container">
+            <h1>Cagão Fantasma</h1>
+            <p>Os adesivos que assombram o seu banheiro (com humor)</p>
+            
+            <div class="cart-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                    <path fill="#f39c12" d="M17 18a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2M1 4h2l3.6 7.59l-1.36 2.45c-.15.28-.24.61-.24.96c0 1.1.89 2 2 2h12v-2H7.42a.25.25 0 0 1-.25-.25c0-.05.01-.09.03-.12L8.1 13h7.45c.75 0 1.41-.42 1.75-1.03l3.58-6.47c.07-.12.12-.25.12-.39c0-.55-.45-1-1-1H5.21l-.94-2H1v2m6 16a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2"/>
+                </svg>
+                <span class="cart-quantity">0</span>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <a href="#adesivos">Adesivos</a>
+            <a href="#" class="cart-icon-nav">Carrinho</a>
+        </div>
+    </nav>
+    
+    <main>
+        <section id="adesivos" class="container">
+            <h2>Nossos Adesivos Assustadoramente Divertidos</h2>
+            
+            <div class="product-grid">
+                </div>
+            
+        </section>
+    </main>
+
+    <div class="cart-modal">
+        <div class="cart-modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Seu Carrinho Assombrado</h2>
+            
+            <div class="cart-items">
+                <p>Seu carrinho está assustadoramente vazio.</p>
+            </div>
+            
+            <div class="cart-summary">
+                <hr>
+                <div class="cart-total-section">
+                    <strong>Subtotal:</strong>
+                    <span class="cart-total">R$ 0,00</span>
+                </div>
+                
+                <div class="shipping-section">
+                    <label for="zip-code">Calcular Frete (CEP):</label>
+                    <div class="zip-code-wrapper">
+                        <input type="tel" id="zip-code" placeholder="12345678" maxlength="8">
+                        <button type="button" id="calculate-shipping">
+                            <div class="spinner"></div>
+                            <span>Calcular</span>
+                        </button>
+                    </div>
+                    
+                    <div id="resultado-frete"></div>
+                    <div id="frete-erro"></div>
+                    
+                    <input type="hidden" id="valor_frete" name="valor_frete">
+                    <input type="hidden" id="tipo_frete" name="tipo_frete">
+
+                </div>
+
+                <div class="shipping-cost-section">
+                    <strong>Frete:</strong>
+                    <span class="shipping-cost">R$ 0,00</span>
+                </div>
+                
+                <hr>
+                
+                <div class="cart-final-total">
+                    <strong>Total:</strong>
+                    <span class="final-total">R$ 0,00</span>
+                </div>
+
+
+
+<div class="customer-details-section">
+    <h3 style="font-family: var(--fonte-subtitulo); font-size: 1.4rem; color: var(--cor-principal); margin-bottom: 1rem;">Dados para Pagamento:</h3>
+    <input type="text" id="customer-name" placeholder="Seu Nome Completo" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--cor-borda); border-radius: 8px; font-family: var(--fonte-corpo); font-size: 1rem; margin-bottom: 10px;">
+    <input type="tel" id="customer-cpf" placeholder="CPF (somente números)" maxlength="11" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--cor-borda); border-radius: 8px; font-family: var(--fonte-corpo); font-size: 1rem; margin-bottom: 10px;">
+    <input type="email" id="customer-email" placeholder="Seu Email" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--cor-borda); border-radius: 8px; font-family: var(--fonte-corpo); font-size: 1rem; margin-bottom: 10px;">
+    <input type="tel" id="customer-phone" placeholder="Celular (DD + número)" maxlength="11" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--cor-borda); border-radius: 8px; font-family: var(--fonte-corpo); font-size: 1rem; margin-bottom: 20px;">
+</div>
+<div class="shipping-section">
+
+</div>
+
+<button id="checkout" disabled>Calcule o frete para continuar</button>
+
+
+<div class="pix-result-section" style="display: none; text-align: center; margin-top: 2rem;">
+    <h3 style="font-family: var(--fonte-titulo); font-size: 2rem; color: var(--cor-secundaria); margin-bottom: 1.5rem;">Pague o seu PIX Fantasma!</h3>
+    
+    <div id="qr-code-display" style="margin-bottom: 20px;">
+        </div>
+    
+    <p style="font-weight: bold; margin-bottom: 5px; color: var(--cor-principal);">PIX Copia e Cola:</p>
+    <textarea id="pix-copia-e-cola" rows="3" readonly style="width: 100%; padding: 10px; border: 3px solid var(--cor-principal); border-radius: 8px; background-color: #fcfcfc; resize: none; font-family: monospace;"></textarea>
+    
+    <button id="copy-pix-btn" style="width: 100%; padding: 0.8rem; background-color: var(--cor-principal); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; font-family: var(--fonte-subtitulo);">Copiar Código PIX</button>
+</div>
+
+
+            
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Cagão Fantasma. Todos os direitos reservados. Não nos responsabilizamos por sustos.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
