@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let shippingCost = 0; // Armazena o custo de frete *selecionado*
 
     // --- IMPORTANTE: Substitua pela URL do seu Webhook de CÁLCULO DE FRETE ---
-    const URL_WEBHOOK_FRETE = "http://localhost:5678/webhook-test/frete"; // URL que retorna as *opções*
-    const URL_WEBHOOK_ORDER = "http://localhost:5678/webhook-test/finaliza-pedido"; // URL para o pedido final
+    const URL_WEBHOOK_FRETE = "http://localhost:5678/webhook/frete"; // URL que retorna as *opções*
+    const URL_WEBHOOK_ORDER = "http://localhost:5678/webhook/finaliza-pedido"; // URL para o pedido final
 
     // --- PRODUTOS ---
     const products = [
