@@ -3,127 +3,723 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cagão Fantasma - Adesivos de Banheiro com Humor</title>
+    <title>Cagão Fantasma | Adesivos Assombrados</title>
     <link rel="icon" href="https://via.placeholder.com/32x32.png?text=💩" type="image/png">
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- Fontes Otimizadas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <!-- Ícones (Phosphor Icons para leveza e modernidade) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* --- VARIÁVEIS E RESET --- */
+        :root {
+            --cor-principal: #2c3e50;       /* Azul Escuro Profundo */
+            --cor-secundaria: #f39c12;      /* Laranja Vibrante (CTA) */
+            --cor-hover: #e67e22;           /* Laranja mais escuro */
+            --cor-terciaria: #27ae60;       /* Verde (Sucesso/Dinheiro) */
+            --cor-fundo: #ecf0f1;           /* Cinza Claro */
+            --cor-card: #ffffff;
+            --cor-texto: #34495e;
+            --sombra-suave: 0 4px 6px rgba(0,0,0,0.05);
+            --sombra-hover: 0 10px 20px rgba(0,0,0,0.12);
+            --borda-radius: 12px;
+            
+            --fonte-titulo: 'Creepster', cursive;
+            --fonte-destaque: 'Permanent Marker', cursive;
+            --fonte-corpo: 'Montserrat', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: var(--fonte-corpo);
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- COMPONENTES GERAIS --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        
+        button { cursor: pointer; transition: all 0.3s ease; font-family: var(--fonte-corpo); }
+        
+        /* Notificações (Toast) em vez de Alert */
+        #toast-container {
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .toast {
+            background: white; padding: 15px 20px; border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-left: 5px solid var(--cor-principal);
+            display: flex; align-items: center; gap: 10px;
+            animation: slideIn 0.3s ease forwards;
+            min-width: 280px; font-weight: 600;
+        }
+        .toast.success { border-left-color: var(--cor-terciaria); }
+        .toast.error { border-left-color: #e74c3c; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* --- HEADER & HERO --- */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white; padding: 1rem 0;
+            position: sticky; top: 0; z-index: 50;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo h1 { font-family: var(--fonte-titulo); font-size: 2.2rem; color: var(--cor-secundaria); letter-spacing: 2px; text-shadow: 2px 2px 0 #000; }
+        .logo span { font-family: var(--fonte-destaque); font-size: 0.9rem; display: block; color: #bdc3c7; margin-top: -5px; }
+
+        .cart-trigger {
+            position: relative; background: rgba(255,255,255,0.1);
+            padding: 10px; border-radius: 50%; transition: transform 0.2s;
+        }
+        .cart-trigger:hover { transform: scale(1.1); background: rgba(255,255,255,0.2); }
+        .cart-count {
+            position: absolute; top: -5px; right: -5px;
+            background: var(--cor-secundaria); color: var(--cor-principal);
+            font-weight: bold; border-radius: 50%; width: 22px; height: 22px;
+            display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Benefícios (Trust Bar) */
+        .benefits-bar {
+            background: var(--cor-secundaria); color: var(--cor-principal);
+            padding: 10px 0; font-size: 0.9rem; font-weight: bold;
+            text-align: center;
+        }
+        .benefits-bar .container { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .benefit-item { display: flex; align-items: center; gap: 5px; }
+
+        /* --- GRID DE PRODUTOS --- */
+        .products-section { padding: 3rem 0; }
+        .section-title {
+            text-align: center; font-family: var(--fonte-titulo); font-size: 3rem;
+            color: var(--cor-principal); margin-bottom: 2rem;
+        }
+
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--cor-card); border-radius: var(--borda-radius);
+            overflow: hidden; position: relative;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex; flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-hover);
+            border-color: var(--cor-secundaria);
+        }
+
+        /* Gatilho: Badges */
+        .badge {
+            position: absolute; top: 10px; left: 10px;
+            background: #e74c3c; color: white;
+            padding: 4px 10px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: bold; text-transform: uppercase;
+            z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .badge.bestseller { background: var(--cor-secundaria); color: var(--cor-principal); }
+
+        .product-img-wrapper {
+            height: 220px; padding: 20px; background: #f8f9fa;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .product-img-wrapper img { max-width: 100%; max-height: 100%; transition: transform 0.3s; }
+        .product-card:hover img { transform: scale(1.05) rotate(2deg); }
+
+        .product-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-title { font-family: var(--fonte-destaque); color: var(--cor-principal); font-size: 1.3rem; margin-bottom: 5px; line-height: 1.2; }
+        
+        /* Gatilho: Prova Social (Estrelas) */
+        .stars { color: #f1c40f; font-size: 0.9rem; margin-bottom: 10px; }
+        
+        .product-desc { font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px; flex-grow: 1; font-style: italic; }
+        
+        .price-box { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .price { font-size: 1.4rem; font-weight: 800; color: var(--cor-terciaria); }
+        
+        .btn-add {
+            background: var(--cor-secundaria); color: var(--cor-principal);
+            border: none; padding: 10px 15px; border-radius: 8px;
+            font-weight: bold; display: flex; align-items: center; gap: 5px;
+        }
+        .btn-add:hover { background: var(--cor-hover); }
+
+        /* --- MODAL CARRINHO OTIMIZADO --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            z-index: 100; display: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .cart-modal {
+            background: #fff; width: 100%; max-width: 500px; height: 100%;
+            margin-left: auto; display: flex; flex-direction: column;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            transform: translateX(100%); transition: transform 0.3s ease-out;
+        }
+        .modal-overlay.active .cart-modal { transform: translateX(0); }
+
+        .cart-header {
+            padding: 20px; background: var(--cor-principal); color: white;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .cart-header h2 { font-family: var(--fonte-titulo); font-size: 1.8rem; color: var(--cor-secundaria); margin: 0; }
+        .close-modal { background: none; border: none; color: white; font-size: 1.5rem; }
+
+        /* Barra de Progresso Frete Grátis (Gamificação) */
+        .shipping-progress { background: #e0e0e0; padding: 10px 20px; font-size: 0.85rem; text-align: center; color: #555; }
+        .progress-bar-bg { background: #ccc; height: 8px; border-radius: 4px; margin-top: 5px; overflow: hidden; }
+        .progress-bar-fill { background: var(--cor-terciaria); height: 100%; width: 0%; transition: width 0.5s ease; }
+
+        .cart-body { flex-grow: 1; overflow-y: auto; padding: 20px; }
+
+        /* Itens do Carrinho */
+        .cart-item {
+            display: flex; align-items: center; gap: 15px; margin-bottom: 15px;
+            padding-bottom: 15px; border-bottom: 1px dashed #ccc;
+        }
+        .cart-item img { width: 50px; height: 50px; object-fit: contain; border-radius: 5px; background: #f0f0f0; }
+        .item-details { flex-grow: 1; }
+        .item-title { font-weight: bold; display: block; font-size: 0.95rem; }
+        .item-price { color: var(--cor-terciaria); font-weight: bold; }
+        
+        .qty-control { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+        .qty-btn {
+            width: 24px; height: 24px; border-radius: 50%; border: 1px solid #ccc;
+            background: white; display: flex; align-items: center; justify-content: center;
+        }
+        
+        /* Seção de Frete */
+        .shipping-calc { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px solid #eee; }
+        .shipping-calc h4 { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .input-group { display: flex; gap: 10px; }
+        .input-group input {
+            flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; outline: none;
+        }
+        .input-group button {
+            background: var(--cor-principal); color: white; border: none;
+            padding: 0 15px; border-radius: 6px; font-weight: bold;
+        }
+
+        .shipping-options { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .shipping-option {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .shipping-option:hover, .shipping-option.selected { border-color: var(--cor-terciaria); background: #e8f8f5; }
+        .shipping-option input { display: none; } /* Esconde radio padrão */
+        
+        /* Formulário Cliente (Limpo) */
+        .customer-form { margin-top: 20px; }
+        .form-floating { margin-bottom: 12px; position: relative; }
+        .form-input {
+            width: 100%; padding: 12px 10px; border: 1px solid #ccc; border-radius: 6px;
+            font-size: 1rem; font-family: var(--fonte-corpo);
+        }
+        .form-input:focus { border-color: var(--cor-secundaria); outline: none; box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2); }
+
+        /* Footer do Carrinho */
+        .cart-footer {
+            padding: 20px; background: white; border-top: 1px solid #eee;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+        }
+        .total-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; }
+        
+        #checkout-btn {
+            width: 100%; background: var(--cor-terciaria); color: white;
+            padding: 15px; border: none; border-radius: 8px;
+            font-size: 1.1rem; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        #checkout-btn:disabled { background: #95a5a6; cursor: not-allowed; }
+        
+        /* Tela de PIX */
+        .pix-screen { text-align: center; display: none; padding: 20px 0; }
+        .pix-screen h3 { font-family: var(--fonte-titulo); color: var(--cor-secundaria); font-size: 1.8rem; }
+        .copy-box {
+            background: #f0f0f0; border: 2px dashed #ccc; padding: 10px;
+            border-radius: 6px; word-break: break-all; font-family: monospace;
+            font-size: 0.8rem; margin: 15px 0; max-height: 60px; overflow-y: auto;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .section-title { font-size: 2.2rem; }
+            .cart-modal { max-width: 100%; }
+            .benefits-bar { font-size: 0.75rem; }
+        }
+        
+        /* Animação de Carregando */
+        .spinner { width: 20px; height: 20px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
-    
+
+    <!-- Container de Notificações -->
+    <div id="toast-container"></div>
+
     <header>
         <div class="container">
-            <h1>Cagão Fantasma</h1>
-            <p>Os adesivos que assombram o seu banheiro (com humor)</p>
+            <div class="logo">
+                <h1>Cagão Fantasma</h1>
+                <span>Humor para o seu banheiro</span>
+            </div>
             
-            <div class="cart-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-                    <path fill="#f39c12" d="M17 18a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2M1 4h2l3.6 7.59l-1.36 2.45c-.15.28-.24.61-.24.96c0 1.1.89 2 2 2h12v-2H7.42a.25.25 0 0 1-.25-.25c0-.05.01-.09.03-.12L8.1 13h7.45c.75 0 1.41-.42 1.75-1.03l3.58-6.47c.07-.12.12-.25.12-.39c0-.55-.45-1-1-1H5.21l-.94-2H1v2m6 16a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2"/>
-                </svg>
-                <span class="cart-quantity">0</span>
+            <div class="cart-trigger" onclick="toggleCart()">
+                <i class="ph ph-shopping-cart" style="font-size: 24px; color: white;"></i>
+                <span class="cart-count">0</span>
             </div>
         </div>
     </header>
 
-    <nav>
+    <!-- Trust Bar (Gatilho de Segurança e Benefício) -->
+    <div class="benefits-bar">
         <div class="container">
-            <a href="#adesivos">Adesivos</a>
-            <a href="#" class="cart-icon-nav">Carrinho</a>
+            <div class="benefit-item"><i class="ph ph-truck"></i> Enviamos para todo Brasil</div>
+            <div class="benefit-item"><i class="ph ph-shield-check"></i> Pagamento 100% Seguro</div>
+            <div class="benefit-item"><i class="ph ph-gift"></i> Humor Garantido</div>
         </div>
-    </nav>
-    
+    </div>
+
     <main>
-        <section id="adesivos" class="container">
-            <h2>Nossos Adesivos Assustadoramente Divertidos</h2>
-            
-            <div class="product-grid">
-                </div>
-            
+        <section class="products-section container">
+            <h2 class="section-title">Escolha seu Susto</h2>
+            <div class="product-grid" id="product-grid">
+                <!-- Produtos renderizados via JS -->
+            </div>
         </section>
     </main>
 
-    <div class="cart-modal">
-        <div class="cart-modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Seu Carrinho Assombrado</h2>
-            
-            <div class="cart-items">
-                <p>Seu carrinho está assustadoramente vazio.</p>
+    <!-- Modal do Carrinho (Slide Over) -->
+    <div class="modal-overlay" id="cart-overlay">
+        <div class="cart-modal">
+            <div class="cart-header">
+                <h2>Carrinho Assombrado</h2>
+                <button class="close-modal" onclick="toggleCart()"><i class="ph ph-x"></i></button>
             </div>
-            
-            <div class="cart-summary">
-                <hr>
-                <div class="cart-total-section">
-                    <strong>Subtotal:</strong>
-                    <span class="cart-total">R$ 0,00</span>
+
+            <!-- Gamificação: Barra de Frete Grátis -->
+            <div class="shipping-progress">
+                <span id="shipping-msg">Faltam <b>R$ 150,00</b> para Frete Grátis!</span>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="shipping-bar"></div>
                 </div>
-                
-                <div class="shipping-section">
-                    <label for="zip-code">Calcular Frete (CEP):</label>
-                    <div class="zip-code-wrapper">
-                        <input type="tel" id="zip-code" placeholder="12345678" maxlength="8">
-                        <button type="button" id="calculate-shipping">
-                            <div class="spinner"></div>
-                            <span>Calcular</span>
-                        </button>
+            </div>
+
+            <div class="cart-body">
+                <!-- Lista de Produtos -->
+                <div id="cart-items-container">
+                    <p style="text-align: center; color: #999; margin-top: 20px;">Seu carrinho está vazio... como um fantasma.</p>
+                </div>
+
+                <!-- Etapa 1: Cálculo de Frete -->
+                <div class="shipping-calc" id="step-shipping" style="display: none;">
+                    <h4><i class="ph ph-map-pin"></i> Calcular Entrega</h4>
+                    <div class="input-group">
+                        <input type="tel" id="zip-code" placeholder="CEP (00000-000)" maxlength="9">
+                        <button id="calc-shipping-btn" onclick="calculateShipping()"><i class="ph ph-magnifying-glass"></i></button>
                     </div>
-                    
-                    <div id="resultado-frete"></div>
-                    <div id="frete-erro"></div>
-                    
-                    <input type="hidden" id="valor_frete" name="valor_frete">
-                    <input type="hidden" id="tipo_frete" name="tipo_frete">
-
+                    <div id="shipping-options" class="shipping-options"></div>
                 </div>
 
-                <div class="shipping-cost-section">
-                    <strong>Frete:</strong>
-                    <span class="shipping-cost">R$ 0,00</span>
-                </div>
-                
-                <hr>
-                
-                <div class="cart-final-total">
-                    <strong>Total:</strong>
-                    <span class="final-total">R$ 0,00</span>
+                <!-- Etapa 2: Dados do Cliente (Só aparece após frete) -->
+                <div class="customer-form" id="step-customer" style="display: none;">
+                    <h4 style="margin-bottom: 10px; color: var(--cor-principal);"><i class="ph ph-user"></i> Quem vai receber?</h4>
+                    <div class="form-floating"><input type="text" id="cust-name" class="form-input" placeholder="Nome Completo"></div>
+                    <div class="form-floating"><input type="email" id="cust-email" class="form-input" placeholder="Email"></div>
+                    <div class="form-floating"><input type="tel" id="cust-cpf" class="form-input" placeholder="CPF (000.000.000-00)" maxlength="14"></div>
+                    <div class="form-floating"><input type="tel" id="cust-phone" class="form-input" placeholder="Celular (00) 00000-0000" maxlength="15"></div>
                 </div>
 
+                <!-- Etapa 3: Resultado PIX -->
+                <div class="pix-screen" id="step-pix">
+                    <h3>Tudo Pronto!</h3>
+                    <p>Escaneie o QR Code abaixo:</p>
+                    <div id="qr-code-container" style="margin: 15px 0; border: 4px solid var(--cor-principal); display: inline-block; border-radius: 8px;">
+                        <!-- Imagem QR Code via JS -->
+                    </div>
+                    <p style="font-weight: bold; color: var(--cor-secundaria);">Ou use o Copia e Cola:</p>
+                    <div class="copy-box" id="pix-payload">...</div>
+                    <button class="btn-add" style="width: 100%; justify-content: center;" onclick="copyPix()">
+                        <i class="ph ph-copy"></i> Copiar Código
+                    </button>
+                </div>
+            </div>
 
-
-<div class="customer-details-section">
-    <h3 style="font-family: var(--fonte-subtitulo); font-size: 1.4rem; color: var(--cor-principal); margin-bottom: 1rem;">Dados para Pagamento:</h3>
-    <input type="text" id="customer-name" placeholder="Seu Nome Completo" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--cor-borda); border-radius: 8px; font-family: var(--fonte-corpo); font-size: 1rem; margin-bottom: 10px;">
-    <input type="tel" id="customer-cpf" placeholder="CPF (somente números)" maxlength="11" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--cor-borda); border-radius: 8px; font-family: var(--fonte-corpo); font-size: 1rem; margin-bottom: 10px;">
-    <input type="email" id="customer-email" placeholder="Seu Email" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--cor-borda); border-radius: 8px; font-family: var(--fonte-corpo); font-size: 1rem; margin-bottom: 10px;">
-    <input type="tel" id="customer-phone" placeholder="Celular (DD + número)" maxlength="11" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--cor-borda); border-radius: 8px; font-family: var(--fonte-corpo); font-size: 1rem; margin-bottom: 20px;">
-</div>
-<div class="shipping-section">
-
-</div>
-
-<button id="checkout" disabled>Calcule o frete para continuar</button>
-
-
-<div class="pix-result-section" style="display: none; text-align: center; margin-top: 2rem;">
-    <h3 style="font-family: var(--fonte-titulo); font-size: 2rem; color: var(--cor-secundaria); margin-bottom: 1.5rem;">Pague o seu PIX Fantasma!</h3>
-    
-    <div id="qr-code-display" style="margin-bottom: 20px;">
-        </div>
-    
-    <p style="font-weight: bold; margin-bottom: 5px; color: var(--cor-principal);">PIX Copia e Cola:</p>
-    <textarea id="pix-copia-e-cola" rows="3" readonly style="width: 100%; padding: 10px; border: 3px solid var(--cor-principal); border-radius: 8px; background-color: #fcfcfc; resize: none; font-family: monospace;"></textarea>
-    
-    <button id="copy-pix-btn" style="width: 100%; padding: 0.8rem; background-color: var(--cor-principal); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; font-family: var(--fonte-subtitulo);">Copiar Código PIX</button>
-</div>
-
-
-            
+            <div class="cart-footer" id="cart-footer">
+                <div class="total-row">
+                    <span>Total:</span>
+                    <span id="final-total">R$ 0,00</span>
+                </div>
+                <button id="checkout-btn" onclick="handleCheckout()" disabled>
+                    Selecione o Frete
+                </button>
             </div>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Cagão Fantasma. Todos os direitos reservados. Não nos responsabilizamos por sustos.</p>
-    </footer>
+    <script>
+        /* --- DADOS E CONFIG --- */
+        const URL_WEBHOOK_FRETE = "http://localhost:5678/webhook/frete"; 
+        const URL_WEBHOOK_ORDER = "http://localhost:5678/webhook/finaliza-pedido";
+        const FRETE_GRATIS_THRESHOLD = 150.00;
 
-    <script src="script.js"></script>
+        const products = [
+            { id: 1, name: 'A Obra-Prima', price: 24.90, image: 'img/10.png', description: '"Contemple minha arte."', stars: 5, badge: 'Mais Vendido' },
+            { id: 2, name: 'O Tesouro', price: 24.90, image: 'img/12.png', description: '"Mais valioso que ouro."', stars: 4, badge: '' },
+            { id: 3, name: 'Força Fantasma', price: 24.90, image: 'img/13.png', description: '"Que a Força esteja com o proxêmo..."', stars: 5, badge: '' },
+            { id: 4, name: 'Demolição', price: 24.90, image: 'img/14.png', description: '"Estrutura comprometida."', stars: 4, badge: 'Poucas Unidades' },
+            { id: 5, name: 'Algo Nasceu', price: 24.90, image: 'img/15.png', description: '"Não sei o que é..."', stars: 5, badge: '' },
+            { id: 6, name: 'Cafezinho', price: 24.90, image: 'img/16.png', description: '"Aroma intenso."', stars: 5, badge: 'Novo' },
+            { id: 7, name: 'O Kraken', price: 24.90, image: 'img/17.png', description: '"Veio das profundezas."', stars: 4, badge: '' },
+            { id: 8, name: 'Atômico', price: 24.90, image: 'img/3.png', description: '"Reação em cadeia."', stars: 5, badge: '' },
+            { id: 9, name: 'Presente Surpresa', price: 24.90, image: 'img/5.png', description: '"Abre que é surpresa..."', stars: 4, badge: '' }
+        ];
+
+        let cart = [];
+        let currentShipping = null; // { price, name, days }
+
+        /* --- MÁSCARAS DE INPUT (UX) --- */
+        const masks = {
+            cpf: (value) => value.replace(/\D/g, '').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1'),
+            phone: (value) => value.replace(/\D/g, '').replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d)(\d{4})$/, '$1-$2'),
+            cep: (value) => value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2').replace(/(-\d{3})\d+?$/, '$1')
+        };
+
+        document.querySelectorAll('input').forEach($input => {
+            if ($input.id === 'cust-cpf') $input.addEventListener('input', (e) => e.target.value = masks.cpf(e.target.value));
+            if ($input.id === 'cust-phone') $input.addEventListener('input', (e) => e.target.value = masks.phone(e.target.value));
+            if ($input.id === 'zip-code') $input.addEventListener('input', (e) => {
+                e.target.value = masks.cep(e.target.value);
+                resetShippingUI(); // Resetar frete se mudar CEP
+            });
+        });
+
+        /* --- FUNÇÕES DE UI (TOAST) --- */
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? '<i class="ph ph-check-circle" style="font-size:24px; color:var(--cor-terciaria)"></i>' : '<i class="ph ph-warning-circle" style="font-size:24px; color:#e74c3c"></i>';
+            toast.innerHTML = `${icon} <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function formatCurrency(val) { return `R$ ${val.toFixed(2).replace('.', ',')}`; }
+
+        /* --- RENDERIZAÇÃO --- */
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card">
+                    ${p.badge ? `<div class="badge ${p.badge === 'Mais Vendido' ? 'bestseller' : ''}">${p.badge}</div>` : ''}
+                    <div class="product-img-wrapper">
+                        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200?text=👻'">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${p.name}</h3>
+                        <div class="stars">${'★'.repeat(p.stars)}${'☆'.repeat(5 - p.stars)}</div>
+                        <p class="product-desc">${p.description}</p>
+                        <div class="price-box">
+                            <span class="price">${formatCurrency(p.price)}</span>
+                            <button class="btn-add" onclick="addToCart(${p.id})">
+                                <i class="ph ph-shopping-cart"></i> + Assombrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* --- LÓGICA DO CARRINHO --- */
+        function toggleCart() {
+            const overlay = document.getElementById('cart-overlay');
+            overlay.classList.toggle('active');
+        }
+        // Fechar clicando fora
+        document.getElementById('cart-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'cart-overlay') toggleCart();
+        });
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const exists = cart.find(i => i.id === id);
+            if (exists) exists.qty++;
+            else cart.push({ ...product, qty: 1 });
+            
+            updateCartUI();
+            toggleCart(); // Abre o carrinho automaticamente (Melhora conversão)
+            showToast(`${product.name} adicionado!`);
+            resetShippingUI();
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+                updateCartUI();
+                resetShippingUI();
+            }
+        }
+
+        function updateCartUI() {
+            // 1. Badge do ícone
+            const totalItems = cart.reduce((acc, i) => acc + i.qty, 0);
+            document.querySelector('.cart-count').textContent = totalItems;
+            
+            // 2. Lista de Itens
+            const container = document.getElementById('cart-items-container');
+            if (cart.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding: 20px; color: #aaa;"><i class="ph ph-ghost" style="font-size: 48px; margin-bottom:10px;"></i><p>Carrinho vazio... assustador.</p></div>';
+                document.getElementById('step-shipping').style.display = 'none';
+                document.getElementById('step-customer').style.display = 'none';
+                document.getElementById('cart-footer').style.display = 'none';
+                document.getElementById('shipping-msg').innerHTML = `Adicione itens para calcular o frete!`;
+                document.getElementById('shipping-bar').style.width = '0%';
+                return;
+            } else {
+                document.getElementById('step-shipping').style.display = 'block';
+                document.getElementById('cart-footer').style.display = 'block';
+            }
+
+            container.innerHTML = cart.map(i => `
+                <div class="cart-item">
+                    <img src="${i.image}" onerror="this.src='https://via.placeholder.com/50'">
+                    <div class="item-details">
+                        <span class="item-title">${i.name}</span>
+                        <span class="item-price">${formatCurrency(i.price * i.qty)}</span>
+                        <div class="qty-control">
+                            <button class="qty-btn" onclick="changeQty(${i.id}, -1)">-</button>
+                            <span>${i.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${i.id}, 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // 3. Barra de Progresso (Gamificação)
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            const remaining = FRETE_GRATIS_THRESHOLD - subtotal;
+            const bar = document.getElementById('shipping-bar');
+            const msg = document.getElementById('shipping-msg');
+
+            if (remaining > 0) {
+                const percent = (subtotal / FRETE_GRATIS_THRESHOLD) * 100;
+                bar.style.width = `${percent}%`;
+                bar.style.background = 'var(--cor-secundaria)';
+                msg.innerHTML = `Faltam <b>${formatCurrency(remaining)}</b> para Frete Grátis!`;
+            } else {
+                bar.style.width = '100%';
+                bar.style.background = 'var(--cor-terciaria)';
+                msg.innerHTML = `🎉 <b>PARABÉNS!</b> Você ganhou Frete Grátis!`;
+            }
+
+            updateTotals();
+        }
+
+        function updateTotals() {
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            const shippingVal = currentShipping ? currentShipping.price : 0;
+            
+            // Lógica Frete Grátis real
+            const finalShipping = (subtotal >= FRETE_GRATIS_THRESHOLD) ? 0 : shippingVal;
+            
+            const total = subtotal + finalShipping;
+            document.getElementById('final-total').textContent = formatCurrency(total);
+
+            const btn = document.getElementById('checkout-btn');
+            if (!currentShipping) {
+                btn.textContent = "Selecione o Frete";
+                btn.disabled = true;
+                btn.style.background = '#95a5a6';
+            } else {
+                btn.innerHTML = `Pagar com PIX <i class="ph ph-arrow-right"></i>`;
+                btn.disabled = false;
+                btn.style.background = 'var(--cor-terciaria)';
+                
+                // Mostrar campos de cliente se frete selecionado
+                document.getElementById('step-customer').style.display = 'block';
+            }
+        }
+
+        function resetShippingUI() {
+            currentShipping = null;
+            document.getElementById('shipping-options').innerHTML = '';
+            document.getElementById('step-customer').style.display = 'none';
+            updateTotals();
+        }
+
+        /* --- API E LÓGICA DE NEGÓCIO --- */
+        async function calculateShipping() {
+            const cep = document.getElementById('zip-code').value.replace(/\D/g, '');
+            const btn = document.getElementById('calc-shipping-btn');
+            
+            if (cep.length !== 8) {
+                showToast("CEP inválido. Digite os 8 números.", "error");
+                return;
+            }
+
+            // Estado de loading
+            btn.innerHTML = '<div class="spinner"></div>';
+            btn.disabled = true;
+
+            try {
+                // Simulação de chamada para evitar erro de CORS se o servidor não estiver rodando
+                // REMOVA ESTE BLOCO COMENTADO E USE O FETCH REAL EM PRODUÇÃO
+                /*
+                const response = await fetch(URL_WEBHOOK_FRETE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cep, items: cart })
+                });
+                if (!response.ok) throw new Error("Erro no servidor");
+                const data = await response.json();
+                let options = (Array.isArray(data) && data[0].json) ? data[0].json : data;
+                */
+               
+               // MOCK PARA DEMONSTRAÇÃO VISUAL (Como não tenho o backend n8n rodando)
+               await new Promise(r => setTimeout(r, 1000)); // Fake delay
+               const options = [
+                   { id: 1, name: "Entrega Fantasma (Normal)", price: 15.90, delivery_time: 5 },
+                   { id: 2, name: "Teletransporte (Expresso)", price: 29.90, delivery_time: 2 }
+               ];
+
+                renderShippingOptions(options);
+
+            } catch (error) {
+                console.error(error);
+                showToast("Erro ao calcular frete.", "error");
+            } finally {
+                btn.innerHTML = '<i class="ph ph-magnifying-glass"></i>';
+                btn.disabled = false;
+            }
+        }
+
+        function renderShippingOptions(options) {
+            const container = document.getElementById('shipping-options');
+            container.innerHTML = '';
+
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            const isFree = subtotal >= FRETE_GRATIS_THRESHOLD;
+
+            options.forEach(opt => {
+                const priceDisplay = isFree ? '<s style="color:#999; font-size:0.8em">' + formatCurrency(opt.price) + '</s> <span style="color:var(--cor-terciaria)">GRÁTIS</span>' : formatCurrency(opt.price);
+                const finalPrice = isFree ? 0 : opt.price;
+
+                const el = document.createElement('div');
+                el.className = 'shipping-option';
+                el.innerHTML = `
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <i class="ph ph-truck" style="color:var(--cor-principal); font-size:20px;"></i>
+                        <div style="text-align:left">
+                            <div style="font-weight:bold; font-size:0.9rem;">${opt.name}</div>
+                            <div style="font-size:0.8rem; color:#666;">Chega em até ${opt.delivery_time} dias úteis</div>
+                        </div>
+                    </div>
+                    <div style="font-weight:bold;">${priceDisplay}</div>
+                `;
+                el.onclick = () => selectShipping(opt, finalPrice, el);
+                container.appendChild(el);
+            });
+        }
+
+        function selectShipping(opt, finalPrice, element) {
+            currentShipping = { ...opt, price: finalPrice };
+            document.querySelectorAll('.shipping-option').forEach(e => e.classList.remove('selected'));
+            element.classList.add('selected');
+            updateTotals();
+            // Auto scroll para o form de cliente
+            document.getElementById('step-customer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function handleCheckout() {
+            const name = document.getElementById('cust-name').value;
+            const email = document.getElementById('cust-email').value;
+            const cpf = document.getElementById('cust-cpf').value;
+            
+            if (!name || !email || cpf.length < 14) {
+                showToast("Preencha todos os dados corretamente!", "error");
+                document.getElementById('cust-name').focus();
+                return;
+            }
+
+            const btn = document.getElementById('checkout-btn');
+            btn.innerHTML = '<div class="spinner"></div> Gerando PIX...';
+            btn.disabled = true;
+
+            try {
+                // MOCK PARA DEMONSTRAÇÃO VISUAL
+                await new Promise(r => setTimeout(r, 1500));
+                const mockResponse = {
+                    pixPayload: "00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-426614174000520400005303986540510.005802BR5913Cagao Fantasma6008Sao Paulo62070503***6304E2CA",
+                    qrCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExemploPixFantasma"
+                };
+
+                // EM PRODUÇÃO: Use o fetch real abaixo
+                /*
+                const response = await fetch(URL_WEBHOOK_ORDER, {
+                    method: 'POST',
+                    body: JSON.stringify({ cart, shipping: currentShipping, customer: { name, email, cpf } })
+                });
+                const data = await response.json();
+                // Tratar data.pixPayload etc...
+                */
+               
+               showPixScreen(mockResponse);
+               showToast("Pedido realizado com sucesso!");
+
+            } catch (error) {
+                showToast("Erro ao processar pedido.", "error");
+                btn.innerHTML = 'Tentar Novamente';
+                btn.disabled = false;
+            }
+        }
+
+        function showPixScreen(data) {
+            document.getElementById('step-shipping').style.display = 'none';
+            document.getElementById('step-customer').style.display = 'none';
+            document.getElementById('cart-items-container').style.display = 'none';
+            document.getElementById('cart-footer').style.display = 'none';
+            document.getElementById('shipping-msg').style.display = 'none'; // Esconde barra de progresso
+
+            const pixScreen = document.getElementById('step-pix');
+            pixScreen.style.display = 'block';
+            
+            document.getElementById('qr-code-container').innerHTML = `<img src="${data.qrCodeUrl}" alt="QR Code PIX" style="display:block;">`;
+            document.getElementById('pix-payload').innerText = data.pixPayload;
+        }
+
+        function copyPix() {
+            const text = document.getElementById('pix-payload').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Código PIX copiado!");
+            });
+        }
+
+        // Inicialização
+        renderProducts();
+    </script>
 </body>
 </html>
